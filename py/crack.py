@@ -5,7 +5,7 @@
 # 该知乎栏目为py2编写，这里改造成py3
 from PIL import Image
 
-im = Image.open("../jpg/captcha.gif")
+im = Image.open("../jpg/test1.gif")
 
 # (将图片转换为8位像素模式)
 # 如果报错ValueError: unrecognized raw mode就不要转换
@@ -14,7 +14,6 @@ im = Image.open("../jpg/captcha.gif")
 # im = im.convert("P")
 
 his = im.histogram()
-
 # 打印颜色直方图
 # print(his)
 # print(len(his))
@@ -49,8 +48,8 @@ temp = sorted(values.items(), key=lambda x: x[1], reverse=True)
 #     205 18
 #     184 15
 
-# 获取图片大小，生成一张白底255的图片
-im2 = Image.new("P", im.size, 255)
+# 获取图片大小，生成一张黑底为0的图片
+im2 = Image.new("P", im.size, 0)
 # print(im2.size[1])
 # (84, 22)
 
@@ -64,10 +63,10 @@ for y in range(im.size[1]):
         pix = im.getpixel((x, y))
 
         # 这些是要得到的数字
-        # 220灰色，227红色
-        if pix == 220 or pix == 227:
-            # 将黑色0填充到im2中
-            im2.putpixel((x, y), 0)
+        # 220灰色，227红色，0为黑色
+        if pix == 0:
+            # 将白色255填充到im2中
+            im2.putpixel((x, y), 255)
 # 生成了一张黑白二值照片
 im2.show()
 
@@ -109,6 +108,7 @@ for letter in letters:
     im3 = im2.crop((letter[0], 0, letter[1], im2.size[1]))
     # 更改成用时间命名
     # im3.save("../jpg/%s.gif" % (time.strftime('%Y%m%d%H%M%S', time.localtime())))
+    # time.sleep(1)
     count += 1
 # 可以看到保存下来的6个字段
 
